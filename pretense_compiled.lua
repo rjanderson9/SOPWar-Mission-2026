@@ -7187,6 +7187,9 @@ do
                     else
                         zn:addResource(Config.zoneSpawnCost)
                     end
+					-- Secure Survival Bonus on landing instead of engine shutdown. 
+					param.context.stats[player][PlayerTracker.statTypes.survivalBonus] = param.context:getPlayerMinutes(player)
+					trigger.action.outTextForUnit(un:getID(), 'Survival Bonus Secured.', 5)
 
                     if param.context.tempStats[player] then 
                         if zn and zn.side == un:getCoalition() then
@@ -8102,7 +8105,7 @@ do
         ['F-14A-135-GR'] =  { recon_speed = 10, minDist = 5,  },
         ['F-14B'] =         { recon_speed = 10, minDist = 5,  },
         ['F-15C'] =         { recon_speed = 1,  minDist = 5,  },
-        ['F-16C_50'] =      { recon_speed = 2,  minDist = 20, },
+        ['F-16C_50'] =      { recon_speed = 5,  minDist = 40, },
         ['F-5E-3'] =        { recon_speed = 1,  minDist = 5,  },
         ['F-86F Sabre'] =   { recon_speed = 1,  minDist = 5,  },
         ['FA-18C_hornet'] = { recon_speed = 2,  minDist = 20, },
@@ -14123,9 +14126,9 @@ RewardDefinitions = {}
 
 do
     RewardDefinitions.missions = {
-      [Mission.types.cap_easy]        = { xp = { low = 10, high = 20, boost = 0   } },
+      [Mission.types.cap_easy]        = { xp = { low = 10, high = 20, boost = 50   } },
       [Mission.types.cap_medium]      = { xp = { low = 10, high = 20, boost = 100 } },
-      [Mission.types.tarcap]          = { xp = { low = 10, high = 10, boost = 150 } },
+      [Mission.types.tarcap]          = { xp = { low = 10, high = 20, boost = 250 } },
       [Mission.types.cas_easy]        = { xp = { low = 10, high = 20, boost = 0   } },
       [Mission.types.cas_medium]      = { xp = { low = 20, high = 30, boost = 100   } },
       [Mission.types.cas_hard]        = { xp = { low = 30, high = 40, boost = 150   } },

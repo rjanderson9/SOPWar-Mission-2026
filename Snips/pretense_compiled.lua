@@ -70,7 +70,7 @@ Config.supplyBuildSpeed = Config.supplyBuildSpeed or 85 -- supply helicopters an
 Config.missionBuildSpeedReduction = Config.missionBuildSpeedReduction or 0.12 -- reduction of build speed in case of ai missions
 Config.maxDistFromFront = Config.maxDistFromFront or 129640 -- max distance in meters from front after which zone is forced into low activity state (export mode)
 Config.vehicleKillMultiplier = Config.vehicleKillMultiplier or 5 -- Added to increase reward for killing units. default base is 30xp per kill
-Config.blueAdvantage = Config.blueAdvantage or 0 -- subtracted from random generator red side. -50, 50 where negative is better for blue.
+Config.blueAdvantage = Config.blueAdvantage or 0 -- subtracted from random generator red side. (x = math.random(-50,50-Config.blueAdvantage)) Value should be between -50 and 50 where positive is better for blue. 0 is balanced.
 Config.maxSurvivalBonus = Config.maxSurvivalBonus or 10
 
 if Config.restrictMissionAcceptance == nil then Config.restrictMissionAcceptance = false end -- if set to true, missions can only be accepted while landed inside friendly zones

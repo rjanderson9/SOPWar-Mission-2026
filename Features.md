@@ -112,8 +112,8 @@ Mission Object
 	isAI
 		Boolean, will affect completion condition
 	GroupTracker
-		AI Group being tracked to complete mission
-
+		Index in activeUnits table
+		
 Zone Object
 	ID
 		String

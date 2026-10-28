@@ -35,3 +35,9 @@ function activeAir.new( airbase, template )
 		isAlive = true,
 	}
 end
+
+--[[
+Example aircraft spawn:
+	table.insert( activeAir, activeAir.new( AIRBASE:FindByName( airbase ), template ) )
+	activeAir[activeAir.length].Group:
+]]--

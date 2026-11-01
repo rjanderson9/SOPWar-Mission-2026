@@ -69,7 +69,7 @@ function ProcessZone(zone)
 	zoneRadius = zone:GetRadius()
 	zoneTypeStr = string.sub( zone:GetName(), 5, 7 )
 	zoneType = 0
-	tZone = ZONE_RADIUS:New( zoneName, zoneCoord, zoneRadius )
+	tZone = ZONE:New( zone:GetName() )
 	for index, value in ipairs(typeString) do
 		if value == zoneTypeStr then
 			zoneType = index
@@ -124,26 +124,6 @@ function respawnSupport( unit )
 	MESSAGE:New(messageText, 15):ToAll()
 end
 function spawnTargets( zone )		
-	for i = #spawnTracker, 1, -1 do
-		if spawnTracker[i].Zone == zone.zone then
-			if spawnTracker[i].Group:IsAlive() then
-				spawnTracker[i].Group:Destroy()
-			end
-			table.remove( spawnTracker, i )
-			local messageText = "Previous targets despawned."
-			MESSAGE:New(messageText, 15):ToAll()
-		end
-	end
-	for i = #buildingTracker, 1, -1 do
-		if buildingTracker[i].Zone == zone.zone then
-			if buildingTracker[i].Group:IsAlive() then
-				buildingTracker[i].Group:Destroy()
-			end
-			table.remove( buildingTracker, i )
-			local messageText = "Previous targets despawned."
-			MESSAGE:New(messageText, 15):ToAll()
-		end
-	end
 	if zone.tType == 3 then
 		for i=1, zone.qty do
 			table.insert( buildingTracker, buildingTracker.new( zone.template, zone.zone ) )
@@ -165,6 +145,16 @@ function clearRange( zone )
 			end
 			table.remove( spawnTracker, i )
 			units = units + 1
+		end
+	end
+	for i = #buildingTracker, 1, -1 do
+		if buildingTracker[i].Zone == zone.zone then
+			if buildingTracker[i].Group:IsAlive() then
+				buildingTracker[i].Group:Destroy()
+			end
+			table.remove( buildingTracker, i )
+			local messageText = "Previous targets despawned."
+			MESSAGE:New(messageText, 15):ToAll()
 		end
 	end
 	local prefix = units > 0 and "Previous Units Destroyed at " or "No Units to be Destroyed at "

@@ -5,19 +5,22 @@ Map: Caucasus
 Github Link: https://github.com/rjanderson9/SOPWar-Mission-2026
 
 Training Mission Modifications:
-	Make it automatically look at templates and trigger zones to create ranges and unit templates.
-	Can the script tell the difference between ground unit templates and air unit templates?
+	[DONE]Make it automatically look at templates and trigger zones to create ranges and unit templates.
+	[DONE]Can the script tell the difference between ground unit templates and air unit templates?
 		Prefixes? air- gnd- str- (structure) sup- (support)
 		Secondary prefix for red- blu- neu-
 		Whole prefix: air-red- gnd-blu- etc
-	Prefix zones to determine air spawn area or ground target area.
+	[DONE]Prefix zones to determine air spawn area or ground target area.
 		3 character prefix: gnd- vs air-
-	Script will pull data from mission file and generate menus
+	[DONE]Script will pull data from mission file and generate menus
 		Iterate through trigger zones
 		Iterate through templates
 		Create Menus from generated tables
 		Spawn all support aircraft
 		Challenge: less than 220 lines of code, dressed
+	Add SET_STATIC for bdg templates, test how spawning is set up.
+		Random may be a bit more difficult
+			SpawnFromCoordinates( rand and zone:GetRandomCoordinate() or zone:GetCoorddinate(), math.random(0,360), template.GetName() .. string.format("%03d",#buildingTracker+1) )
 	
 Pretense Modifications as an option:
 	Save survival bonus on landing instead of engine shutdown.

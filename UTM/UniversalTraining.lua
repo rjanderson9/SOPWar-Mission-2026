@@ -37,9 +37,9 @@ function spawnTracker.new ( template, zone, rand, diff )
 	}
 end
 buildingTracker = {}
-function buildingTracker.new ( template, zone )
+function buildingTracker.new ( template, zone, rand )
 	return {
-		Group = template:SpawnFromZone( zone, 0, template.GetName() .. string.format("%03d",#buildingTracker+1) ),
+		Group = template:SpawnFromCoordinates( rand and zone:GetRandomCoordinate() or zone:GetCoorddinate(), math.random(0,360), template.GetName() .. string.format("-%03d",#buildingTracker+1) ),
 		Zone = zone
 	}
 end
@@ -98,12 +98,39 @@ function ProcessTemplate(template)
 			break
 		end
 	end	
-	group = SPAWN:New( template:GetName() )
-	if tType == 0 then return end
+	if tType == 0 then BASE:I( template:GetName() .. " not recognized" ) return end
+	if tType == 3 then
+		group = SPAWNSTATIC:New( template:GetName() )
+	else
+		group = SPAWN:New( template:GetName() )
+	end
 	table.insert( templates, templates.new( group, tName, tType ) )
 	BASE:I( "Found Template: " .. tName .. " Type: " .. typeString[tType] )
 end
 tImport:ForEachGroup(ProcessTemplate)
+bImport = SET_STATIC:New(DATABASE:New())
+	:FilterPrefixes( "utm-" )
+	:FilterOnce()
+function ProcessStatics(template)
+	tName = string.sub( template:GetName(), 9 )
+	tTypeStr = string.sub( template:GetName(), 5, 7 )
+	tType = 0
+	for index, value in ipairs(typeString) do
+		if value == tTypeStr then
+			tType = index
+			break
+		end
+	end	
+	if tType == 0 then BASE:I( template:GetName() .. " not recognized" ) return end
+	if tType == 3 then
+		group = SPAWNSTATIC:New( template:GetName() )
+	else
+		BASE:I( "Invalid Static Template: " .. template:GetName() .. " Type: " .. typeString[tType] )
+	end
+	table.insert( templates, templates.new( group, tName, tType ) )
+	BASE:I( "Found Template: " .. tName .. " Type: " .. typeString[tType] )
+end
+bImport:ForEachStatic(ProcessStatics)
 function despawnSupport( unit )
 	if unit.tracker then
 		if unit.tracker:IsAlive() then
@@ -126,7 +153,7 @@ end
 function spawnTargets( zone )		
 	if zone.tType == 3 then
 		for i=1, zone.qty do
-			table.insert( buildingTracker, buildingTracker.new( zone.template, zone.zone ) )
+			table.insert( buildingTracker, buildingTracker.new( zone.template, zone.zone, zone.rand ) )
 		end
 	else
 		for i=1, zone.qty do
